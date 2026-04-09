@@ -6,11 +6,15 @@ const {
   createUser,
   updateUser,
   deleteUser,
+  searchUserById,
+  searchUserByName,
 } = require("../controllers/productController");
 
 router.get("/users", getUsers);
 router.post("/users", createUser);
 router.put("/users/:id", updateUser);
 router.delete("/users/:id", deleteUser);
+router.post("/users/searchByName", searchUserByName);
+router.post("/users/searchById", searchUserById);
 
 module.exports = router;

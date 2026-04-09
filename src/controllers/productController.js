@@ -137,4 +137,49 @@ const deleteUser = (req, res) => {
   });
 };
 
-module.exports = { getUsers, createUser, updateUser, deleteUser };
+const searchUserByName = (req, res) => {
+  const { username } = req.body;
+
+  service.buscarUsuarioPorNombre(username, (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Error al buscar usuario",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Usuario encontrado",
+      data: results,
+    });
+  });
+};
+
+const searchUserById = (req, res) => {
+  const { id } = req.body;
+
+  service.buscarUsuarioPorId(id, (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Error al buscar usuario",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Usuario encontrado",
+      data: results,
+    });
+  });
+};
+
+module.exports = {
+  getUsers,
+  createUser,
+  updateUser,
+  deleteUser,
+  searchUserByName,
+  searchUserById,
+};

@@ -38,9 +38,19 @@ function eliminarUsuario(id, callback) {
   connection.query("DELETE FROM users WHERE id=?", id, callback);
 }
 
+function buscarUsuarioPorNombre(username, callback) {
+  connection.query("SELECT * FROM users WHERE username=?", username, callback);
+}
+
+function buscarUsuarioPorId(id, callback) {
+  connection.query("SELECT * FROM users WHERE id=?", id, callback);
+}
+
 module.exports = {
   obtenerUsuarios,
   crearUsuario,
   actualizarUsuario,
   eliminarUsuario,
+  buscarUsuarioPorNombre,
+  buscarUsuarioPorId,
 };
