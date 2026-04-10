@@ -39,7 +39,11 @@ function eliminarUsuario(id, callback) {
 }
 
 function buscarUsuarioPorNombre(username, callback) {
-  connection.query("SELECT * FROM users WHERE username=?", username, callback);
+  connection.query(
+    "SELECT * FROM users WHERE username LIKE CONCAT('%', ?, '%')",
+    username,
+    callback,
+  );
 }
 
 function buscarUsuarioPorId(id, callback) {
