@@ -49,7 +49,7 @@ export default function Users() {
     <div className="min-h-screen bg-gray-300 p-8 gap-8 flex flex-col items-center">
       <Buscador />
 
-      <div className="max-w-xl mx-auto bg-blue-50 p-5 rounded-xl shadow">
+      <div className="mx-auto bg-blue-50 p-5 rounded-xl shadow">
         <h1 className="text-2xl font-bold mb-4">Gestión de Usuarios</h1>
 
         {message && <p className="mb-4 text-sm text-blue-600">{message}</p>}
