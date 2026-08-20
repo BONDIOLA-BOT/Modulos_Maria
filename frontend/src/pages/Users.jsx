@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import Buscador from "../components/buscador";
 import Logout from "../components/logout";
 import { api } from "../services/api";
@@ -53,6 +54,14 @@ export default function Users() {
 
   return (
     <div className="min-h-screen bg-gray-300 p-8 gap-8 flex flex-col items-center">
+      <div className="flex gap-4">
+        <Link to="/Products" className="bg-blue-500 text-white rounded px-4 py-2">
+          Productos
+        </Link>
+        <Link to="/Cart" className="bg-blue-500 text-white rounded px-4 py-2">
+          Carrito
+        </Link>
+      </div>
       <Logout />
       <Buscador />
       {isAdmin && (

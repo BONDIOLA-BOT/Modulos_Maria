@@ -1,7 +1,9 @@
 const service = require("../services/pedidoService");
 
 function getPedidos(req, res) {
-  service.obtenerPedidos((err, results) => {
+  const userId = req.usuario.rol === "Admin" ? null : req.usuario.id;
+
+  service.obtenerPedidos(userId, (err, results) => {
     if (err) {
       return res.status(500).json({
         success: false,
@@ -19,16 +21,18 @@ function getPedidos(req, res) {
 
 function createPedido(req, res) {
   try {
-    const { fecha, state, total, user_id } = req.body;
+    const { fecha, state } = req.body;
 
-    if (!fecha || !state || !total || !user_id) {
+    const user_id = req.usuario.id;
+
+    if (!fecha || !state || !user_id) {
       return res.status(400).json({
         success: false,
-        message: "fecha, state, total y user_id son obligatorios",
+        message: "fecha, state y user_id son obligatorios",
       });
     }
 
-    service.crearPedido({ fecha, state, total, user_id }, (err, results) => {
+    service.crearPedido({ fecha, state, total: 0, user_id }, (err, results) => {
       if (err) {
         return res.status(500).json({
           success: false,
@@ -53,7 +57,7 @@ function createPedido(req, res) {
 function updatePedido(req, res) {
   try {
     const { id } = req.params;
-    const { fecha, state, total, user_id } = req.body;
+    const { fecha, state, total } = req.body;
 
     if (!id) {
       return res.status(400).json({
@@ -62,9 +66,12 @@ function updatePedido(req, res) {
       });
     }
 
+    const userId = req.usuario.rol === "Admin" ? null : req.usuario.id;
+
     service.actualizarPedido(
       id,
-      { fecha, state, total, user_id },
+      { fecha, state, total },
+      userId,
       (err, results) => {
         if (err) {
           return res.status(500).json({
@@ -99,7 +106,9 @@ function deletePedido(req, res) {
       });
     }
 
-    service.eliminarPedido(id, (err, results) => {
+    const userId = req.usuario.rol === "Admin" ? null : req.usuario.id;
+
+    service.eliminarPedido(id, userId, (err, results) => {
       if (err) {
         return res.status(500).json({
           success: false,
@@ -128,16 +137,13 @@ function deletePedido(req, res) {
 
 function searchPedidoByUser(req, res) {
   try {
-    const { user_id } = req.body;
+    const id = req.usuario.rol === "Admin" ? req.body.user_id : req.usuario.id;
+    if (!id)
+      return res
+        .status(400)
+        .json({ success: false, message: "id es obligatorio" });
 
-    if (!user_id) {
-      return res.status(400).json({
-        success: false,
-        message: "user_id es obligatorio",
-      });
-    }
-
-    service.buscarPedidoPorUsuario(user_id, (err, results) => {
+    service.buscarPedidoPorUsuario(id, (err, results) => {
       if (err) {
         return res.status(500).json({
           success: false,
@@ -175,7 +181,9 @@ function searchPedidoById(req, res) {
       });
     }
 
-    service.buscarPedidoPorId(id, (err, results) => {
+    const userId = req.usuario.rol === "Admin" ? null : req.usuario.id;
+
+    service.buscarPedidoPorId(id, userId, (err, results) => {
       if (err) {
         return res.status(500).json({
           success: false,

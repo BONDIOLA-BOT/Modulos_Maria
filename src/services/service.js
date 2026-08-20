@@ -1,8 +1,5 @@
-const connection = require("../config/database");
+const { connection } = require("../config/database");
 const bcrypt = require("bcrypt");
-// const SALT_ROUNDS = 10;
-
-//const { connect } = require("../routes");
 
 function login(username, password, callback) {
   connection.query(

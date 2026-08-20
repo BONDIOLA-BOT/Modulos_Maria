@@ -1,4 +1,4 @@
-const connection = require("../config/database");
+const { connection } = require("../config/database");
 
 function obtenerProductos(callback) {
   connection.query("SELECT * FROM products", callback);
@@ -19,7 +19,7 @@ function actualizarProducto(id, producto, callback) {
 
   if (producto.description) {
     query += "description=?, ";
-    values.push(producto.description); // ← Ya viene hasheada desde el controller
+    values.push(producto.description);
   }
 
   if (producto.price) {

@@ -1,7 +1,8 @@
 const service = require("../services/detalleService");
 
 function getDetalles(req, res) {
-  service.obtenerDetalles((err, results) => {
+  const userId = req.usuario.rol === "Admin" ? null : req.usuario.id;
+  service.obtenerDetalles(userId, (err, results) => {
     if (err) {
       return res.status(500).json({
         success: false,
@@ -27,29 +28,47 @@ function createDetalle(req, res) {
         message: "product_id y pedido_id son obligatorios",
       });
     }
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "quantity debe ser un entero positivo",
+      });
+    }
 
-    service.crearDetalle(
-      { product_id, pedido_id, quantity },
-      (err, results) => {
-        if (err) {
-          return res.status(500).json({
-            success: false,
-            message: "Error al crear detalle",
+    const userId = req.usuario.rol === "Admin" ? null : req.usuario.id;
+    const crear = () =>
+      service.crearDetalle(
+        { product_id, pedido_id, quantity },
+        (err, results) => {
+          if (err)
+            return res
+              .status(500)
+              .json({ success: false, message: "Error al crear detalle" });
+          res.status(200).json({
+            success: true,
+            message: "Detalle creado correctamente",
+            data: results,
           });
-        }
+        },
+      );
 
-        res.status(200).json({
-          success: true,
-          message: "Detalle creado correctamente",
-          data: results,
+    if (!userId) return crear();
+
+    service.pedidoPerteneceAUsuario(pedido_id, userId, (err, rows) => {
+      if (err)
+        return res
+          .status(500)
+          .json({ success: false, message: "Error al crear detalle" });
+      if (!rows || rows.length === 0) {
+        return res.status(403).json({
+          success: false,
+          message: "El pedido no existe o no te pertenece",
         });
-      },
-    );
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error al crear detalle",
+      }
+      crear();
     });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error al crear detalle" });
   }
 }
 
@@ -65,16 +84,26 @@ function updateDetalle(req, res) {
       });
     }
 
-    if (!product_id && !pedido_id && !quantity) {
+    if (!quantity && !product_id)
       return res.status(400).json({
         success: false,
-        message: "product_id, pedido_id y quantity son obligatorios",
+        message: "product_id o quantity son obligatorios",
       });
-    }
+    if (
+      quantity !== undefined &&
+      (!Number.isInteger(quantity) || quantity <= 0)
+    )
+      return res.status(400).json({
+        success: false,
+        message: "quantity debe ser un entero positivo",
+      });
+
+    const userId = req.usuario.rol === "Admin" ? null : req.usuario.id;
 
     service.actualizarDetalle(
       { product_id, pedido_id, quantity },
       id,
+      userId,
       (err, results) => {
         if (err) {
           return res.status(500).json({
@@ -109,7 +138,9 @@ function deleteDetalle(req, res) {
       });
     }
 
-    service.eliminarDetalle(id, (err, results) => {
+    const userId = req.usuario.rol === "Admin" ? null : req.usuario.id;
+
+    service.eliminarDetalle(id, userId, (err, results) => {
       if (err) {
         return res.status(500).json({
           success: false,
@@ -147,7 +178,9 @@ function searchDetalleByPedido(req, res) {
       });
     }
 
-    service.buscarDetallePorPedido(id, (err, results) => {
+    const userId = req.usuario.rol === "Admin" ? null : req.usuario.id;
+
+    service.buscarDetallePorPedido(id, userId, (err, results) => {
       if (err) {
         return res.status(500).json({
           success: false,
@@ -184,8 +217,9 @@ function searchDetalleById(req, res) {
         message: "id es obligatorio",
       });
     }
+    const userId = req.usuario.rol === "Admin" ? null : req.usuario.id;
 
-    service.buscarDetallePorId(id, (err, results) => {
+    service.buscarDetallePorId(id, userId, (err, results) => {
       if (err) {
         return res.status(500).json({
           success: false,
