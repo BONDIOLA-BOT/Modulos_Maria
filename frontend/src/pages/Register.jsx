@@ -61,7 +61,9 @@ export default function Register() {
           Register
         </button>
       </form>
-      <Link to="/">Tengo una cuenta</Link>
+      <Link to="/" className="text-blue-600 hover:text-blue-700">
+        Tengo una cuenta
+      </Link>
       {message && <p>{message}</p>}
     </div>
   );

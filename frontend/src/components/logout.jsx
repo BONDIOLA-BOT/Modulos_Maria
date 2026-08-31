@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { api } from "../services/api";
 
 export default function Logout() {
@@ -18,5 +18,12 @@ export default function Logout() {
     }
   };
 
-  return <button onClick={logout}>Logout</button>;
+  return (
+    <Link
+      onClick={logout}
+      className="bg-red-600 px-2 py-1.5 rounded-lg hover:bg-red-500 cursor-pointer absolute top-1/32 left-1/32"
+    >
+      Logout
+    </Link>
+  );
 }

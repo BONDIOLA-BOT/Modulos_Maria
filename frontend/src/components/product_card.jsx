@@ -5,13 +5,15 @@ export default function ProductCard({ product, onAddToCart }) {
       <p>Stock: {product.stock}</p>
       <p>Precio: {product.price}</p>
       <p>Descripcion: {product.description}</p>
-      {product.stock > 0 && (
+      {product.stock > 0 ? (
         <button
           onClick={() => onAddToCart(product.id_product)}
-          className="bg-red-500 text-white px-4 py-2 rounded mt-2"
+          className="bg-red-500 text-white px-4 py-2 rounded mt-2 hover:bg-red-600 cursor-pointer"
         >
           Agregar
         </button>
+      ) : (
+        <p className="text-red-500 text-sm mt-2 font-bold">Sin stock</p>
       )}
     </div>
   );

@@ -19,16 +19,22 @@ const getProducts = (req, res) => {
 
 const createProduct = (req, res) => {
   try {
-    const { name, description, price } = req.body;
+    const { name, description, price, stock } = req.body;
 
-    if (!name || !description || !price) {
+    if (
+      !name ||
+      !description ||
+      !price ||
+      stock === undefined ||
+      stock === null
+    ) {
       return res.status(400).json({
         success: false,
-        message: "name, description y price son obligatorios",
+        message: "name, description, price y stock son obligatorios",
       });
     }
 
-    service.crearProducto({ name, description, price }, (err, results) => {
+    service.crearProducto({ name, description, price, stock }, (err, results) => {
       if (err) {
         return res.status(500).json({
           success: false,

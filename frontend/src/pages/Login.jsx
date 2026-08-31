@@ -65,7 +65,7 @@ export default function Login() {
       </form>
       <p>
         No estas registrado?
-        <Link to="/register" className="text-blue-600">
+        <Link to="/register" className="text-blue-600 hover:text-blue-700">
           {" "}
           Registrarse
         </Link>

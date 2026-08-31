@@ -79,7 +79,10 @@ export default function Cart() {
     <div className="min-h-screen bg-gray-300 p-8 flex flex-col items-center gap-4">
       <h1 className="text-3xl font-bold">Carrito</h1>
 
-      <Link className="bg-blue-500 text-white rounded px-4 py-2" to="/Products">
+      <Link
+        className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 cursor-pointer"
+        to="/Products"
+      >
         Productos
       </Link>
 
@@ -88,7 +91,7 @@ export default function Cart() {
       {!cart || cart.items.length === 0 ? (
         <div className="bg-blue-50 p-5 rounded-xl shadow">
           <p className="text-gray-500">Tu carrito esta vacio</p>
-          <Link to="/Products" className="text-blue-600 text-sm">
+          <Link to="/Products" className="text-blue-600 text-sm hover:text-blue-700">
             Ir a productos
           </Link>
         </div>
@@ -112,7 +115,7 @@ export default function Cart() {
                     {item.quantity === 1 ? (
                       <button
                         onClick={() => handleRemove(item.id_detalle)}
-                        className="bg-red-500 text-white px-2 py-1 rounded text-sm"
+                        className="bg-red-500 text-white px-2 py-1 rounded text-sm hover:bg-red-600 cursor-pointer"
                       >
                         Quitar
                       </button>
@@ -121,7 +124,7 @@ export default function Cart() {
                         onClick={() =>
                           handleQuantity(item.id_detalle, item.quantity - 1)
                         }
-                        className="bg-blue-500 text-white px-3 py-1 rounded"
+                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 cursor-pointer"
                       >
                         -
                       </button>
@@ -134,7 +137,7 @@ export default function Cart() {
                         handleQuantity(item.id_detalle, item.quantity + 1)
                       }
                       disabled={item.quantity >= item.stock}
-                      className="bg-blue-500 text-white px-3 py-1 rounded disabled:opacity-40"
+                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 disabled:opacity-40 disabled:hover:bg-blue-500 cursor-pointer"
                     >
                       +
                     </button>
@@ -155,13 +158,13 @@ export default function Cart() {
             <div className="flex gap-3">
               <button
                 onClick={handleClear}
-                className="bg-red-500 text-white px-4 py-2 rounded"
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer"
               >
                 Vaciar
               </button>
               <button
                 onClick={handleCheckout}
-                className="bg-blue-500 text-white px-4 py-2 rounded"
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
               >
                 Comprar
               </button>

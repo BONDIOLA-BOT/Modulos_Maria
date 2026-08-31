@@ -53,12 +53,18 @@ export default function Users() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-300 p-8 gap-8 flex flex-col items-center">
-      <div className="flex gap-4">
-        <Link to="/Products" className="bg-blue-500 text-white rounded px-4 py-2">
+    <div className="w-full h-screen bg-gray-400 p-8 gap-8 flex flex-col items-center ">
+      <div className="flex gap-4 bg-gray-500 p-5 rounded">
+        <Link
+          to="/Products"
+          className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 cursor-pointer"
+        >
           Productos
         </Link>
-        <Link to="/Cart" className="bg-blue-500 text-white rounded px-4 py-2">
+        <Link
+          to="/Cart"
+          className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 cursor-pointer"
+        >
           Carrito
         </Link>
       </div>
@@ -88,7 +94,7 @@ export default function Users() {
 
             <button
               onClick={handleSubmit}
-              className="bg-blue-500 text-white px-4 rounded"
+              className="bg-blue-500 text-white px-4 rounded hover:bg-blue-600 cursor-pointer"
             >
               {editingId ? "Editar" : "Crear"}
             </button>
@@ -105,14 +111,14 @@ export default function Users() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEdit(u)}
-                    className="text-yellow-600"
+                    className="text-yellow-600 hover:text-yellow-700 cursor-pointer"
                   >
                     Editar
                   </button>
 
                   <button
                     onClick={() => handleDelete(u.id)}
-                    className="text-red-600"
+                    className="text-red-600 hover:text-red-700 cursor-pointer"
                   >
                     Eliminar
                   </button>
